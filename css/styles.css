@@ -1,0 +1,425 @@
+:root {
+  --primary: rgb(142, 21, 56);
+  --primary-deep: rgb(62, 8, 26);
+  --text: #fff;
+  --text-muted: rgb(255 255 255 / 0.72);
+  --btn-shadow: #d6cbce;
+
+  /* golden-ratio type scale: 1rem x 1.618^n */
+  --fs-0: 1rem;
+  --fs-mid: 1.272rem; /* half step, sqrt(1.618) */
+  --fs-1: 1.618rem;
+  --fs-2: 2.618rem;
+  --fs-3: 4.236rem;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+
+  --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, sans-serif;
+
+  /* page margin; % resolves against the width of the element it is used on */
+  --gutter: max(clamp(2rem, 5vw, 5rem), (100% - 1400px) / 2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-0);
+  color: var(--text);
+  background: var(--primary-deep);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  font: 500 var(--fs-0) / 1 var(--font-body);
+  text-decoration: none;
+  transition:
+    background-color 0.2s,
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.btn--primary {
+  background: #fff;
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: 0 3px 0 var(--btn-shadow);
+}
+
+.btn--ghost {
+  background: rgb(255 255 255 / 0.08);
+  border-color: rgb(255 255 255 / 0.3);
+  color: var(--text);
+}
+
+/* ---------- Header and menu ---------- */
+
+.site-header {
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--gutter);
+}
+
+.logo img {
+  display: block;
+  width: auto;
+  height: var(--space-5);
+}
+
+.menu-toggle,
+.menu__close {
+  display: grid;
+  place-items: center;
+  width: var(--space-5);
+  height: var(--space-5);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: var(--fs-1);
+  cursor: pointer;
+}
+
+/* bottom drawer on small screens */
+.menu {
+  inset: auto 0 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: var(--space-2) var(--space-4) var(--space-5);
+  border: 0;
+  border-radius: 1rem 1rem 0 0;
+  background: var(--primary);
+  color: var(--text);
+  transform: translateY(100%);
+  transition:
+    transform 0.3s ease-out,
+    overlay 0.3s allow-discrete,
+    display 0.3s allow-discrete;
+}
+
+.menu:popover-open {
+  display: flex;
+  flex-direction: column;
+  transform: none;
+}
+
+@starting-style {
+  .menu:popover-open {
+    transform: translateY(100%);
+  }
+}
+
+.menu::backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+.menu-toggle svg {
+  width: var(--space-4);
+  height: auto;
+}
+
+.menu__close {
+  align-self: flex-end;
+}
+
+.nav-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  padding: var(--space-2) 0;
+  color: var(--text);
+  font-size: var(--fs-1);
+  text-decoration: none;
+}
+
+.menu .btn {
+  margin-top: var(--space-4);
+}
+
+/* ---------- Hover and press ---------- */
+
+/* hover only where a pointer can hover, so touch screens don't get stuck states */
+@media (hover: hover) {
+  .btn--primary:hover {
+    background: #f3eced;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 var(--btn-shadow);
+  }
+
+  .btn--ghost:hover {
+    background: rgb(255 255 255 / 0.16);
+  }
+
+  .nav-links a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+  }
+}
+
+.btn--primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--btn-shadow);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip; /* rotated fry jacks bleed past the edges on purpose */
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  column-gap: var(--space-4);
+  /* top padding clears the absolutely positioned header */
+  padding: 7.5rem var(--gutter) var(--space-3);
+  background:
+    url("../images/flow-lines.svg") center / cover,
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>") 0 0 / 260px 260px,
+    radial-gradient(ellipse at 70% 45%, transparent 35%, rgb(20 0 8 / 0.45)),
+    linear-gradient(135deg, var(--primary-deep) 0%, rgb(100 14 40) 28%, var(--primary) 55%, rgb(196 32 72) 100%);
+  background-blend-mode: normal, overlay, normal, normal;
+}
+
+.hero__content {
+  grid-column: 1 / -1;
+  align-self: start;
+  margin-top: var(--space-5);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-2);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+/* the forced break only applies once the headline has room for it */
+h1 br {
+  display: none;
+}
+
+.hero__lead {
+  max-width: 56ch;
+  margin: var(--space-2) 0 0;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin: var(--space-2) 0 0;
+  color: var(--text-muted);
+}
+
+.rating__score,
+.rating__star {
+  font-size: var(--fs-mid);
+  line-height: 1;
+}
+
+.rating__score {
+  margin-right: 0.25rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.rating__star {
+  margin-right: var(--space-1);
+  color: #ffd43b;
+}
+
+/* ---------- Fry jacks ---------- */
+
+/* on small screens the fry jacks sit behind the content and add no height */
+.hero__media {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: 6rem;
+  width: min(80%, 22rem);
+  aspect-ratio: 1 / 1.1;
+  opacity: 0.5;
+  filter: brightness(0.6);
+}
+
+.food {
+  position: absolute;
+  height: auto;
+  filter: drop-shadow(0 1.5rem 2rem rgb(20 0 8 / 0.5));
+}
+
+.food--back {
+  top: 2%;
+  left: 4%;
+  width: 25%;
+  rotate: -24deg;
+  filter: brightness(0.8) blur(1.5px);
+}
+
+.food--main {
+  top: 10%;
+  left: 26%;
+  width: 50%;
+  rotate: 8deg;
+}
+
+.food--front {
+  top: 53%;
+  left: 68%;
+  width: 27%;
+  rotate: 26deg;
+}
+
+/* ---------- Stats ---------- */
+
+.stat {
+  margin: 0;
+  line-height: 1;
+  color: var(--text-muted);
+}
+
+.stat--end {
+  justify-self: end;
+  text-align: right;
+}
+
+.stat__number {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: var(--fs-2);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 60rem) {
+  .site-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .logo {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .menu-toggle,
+  .menu__close {
+    display: none;
+  }
+
+  /* the nav's children sit directly in the header grid */
+  .menu {
+    display: contents;
+  }
+
+  .nav-links {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .nav-links a {
+    padding: 0;
+    font-size: var(--fs-0);
+  }
+
+  .menu .btn {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    margin-top: 0;
+  }
+
+  .hero__content {
+    grid-column: 1;
+    align-self: center;
+    margin-top: 0;
+  }
+
+  h1 {
+    font-size: var(--fs-3);
+    line-height: 0.95;
+  }
+
+  h1 br {
+    display: revert;
+  }
+
+  .hero__actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .rating {
+    margin-top: var(--space-3);
+  }
+
+  .rating__score,
+  .rating__star {
+    font-size: var(--fs-1);
+  }
+
+  .hero__media {
+    position: relative;
+    z-index: auto;
+    inset: auto;
+    grid-column: 2;
+    justify-self: end;
+    width: min(100%, 44rem, 62svh);
+    opacity: 1;
+    filter: none;
+  }
+}

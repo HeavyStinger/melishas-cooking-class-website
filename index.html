@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Melisha's Cooking Class</title>
+  <meta name="description" content="Hands-on cooking classes with Melisha in Caye Caulker. No experience needed, just an appetite.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img src="images/logo.webp" alt="Melisha's Cooking Class" width="505" height="600">
+    </a>
+
+    <button class="menu-toggle" type="button" popovertarget="menu" aria-label="Open menu">
+      <svg viewBox="0 0 32 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+        <path d="M2 2h28M2 11h28M2 20h28"/>
+      </svg>
+    </button>
+
+    <nav class="menu" id="menu" popover>
+      <button class="menu__close" type="button" popovertarget="menu" popovertargetaction="hide" aria-label="Close menu">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+      </ul>
+
+      <a class="btn btn--primary" href="#book">Book Now</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__content">
+        <h1>Cooking Classes in <br>Caye Caulker</h1>
+
+        <p class="hero__lead">
+          Hands-on classes led by Melisha, from everyday comforts to showstopping feasts.
+          No experience needed, just an appetite.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#book">Book a Class</a>
+          <a class="btn btn--ghost" href="#classes">
+            View Classes
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <p class="rating">
+          <strong class="rating__score">5</strong>
+          <i class="bi bi-star-fill rating__star" aria-hidden="true"></i>
+          Rated on Google
+        </p>
+      </div>
+
+      <div class="hero__media">
+        <img class="food food--back" src="images/fry-jack-plain.webp" alt="" width="469" height="847">
+        <img class="food food--main" src="images/fry-jack.webp" alt="" width="622" height="906" fetchpriority="high">
+        <img class="food food--front" src="images/fry-jack-plain.webp" alt="" width="469" height="847">
+      </div>
+
+      <p class="stat">
+        <strong class="stat__number">500+</strong>
+        dishes prepared
+      </p>
+
+      <p class="stat stat--end">
+        <strong class="stat__number">300+</strong>
+        happy chefs
+      </p>
+    </section>
+  </main>
+</body>
+</html>
