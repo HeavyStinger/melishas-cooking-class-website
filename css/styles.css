@@ -2,15 +2,24 @@
   --primary: rgb(142, 21, 56);
   --primary-deep: rgb(62, 8, 26);
   --text: #fff;
-  --text-muted: rgb(255 255 255 / 0.72);
-  --btn-shadow: #d6cbce;
+  --text-muted: rgb(255 255 255 / 0.85);
+  --cream: #faf4ec;
+  --primary-deep-muted: rgb(62 8 26 / 0.8);
+  --radius: 0.75rem;
+  --section-space: clamp(4rem, 8vw, 7rem);
+  --line: rgb(142 21 56 / 0.35);
+  --line-strong: rgb(142 21 56 / 0.4);
 
   /* golden-ratio type scale: 1rem x 1.618^n */
+  --fs-0-half: 0.786rem; /* 1 / sqrt(1.618) */
+  --fs-0-quarter: 0.887rem; /* 1.618 ^ -1/4 */
   --fs-0: 1rem;
   --fs-mid: 1.272rem; /* half step, sqrt(1.618) */
   --fs-1: 1.618rem;
   --fs-2: 2.618rem;
   --fs-3: 4.236rem;
+  --fs-4: 6.854rem;
+  --fs-4-half: 8.718rem; /* sqrt(1.618) above fs-4 */
 
   --space-1: 0.5rem;
   --space-2: 1rem;
@@ -18,7 +27,7 @@
   --space-4: 2rem;
   --space-5: 3rem;
 
-  --font-heading: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-heading: "Fredoka", system-ui, sans-serif;
   --font-body: "Figtree", system-ui, sans-serif;
 
   /* page margin; % resolves against the width of the element it is used on */
@@ -36,7 +45,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--fs-0);
   color: var(--text);
-  background: var(--primary-deep);
+  background: var(--cream);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -54,7 +63,7 @@ body {
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
   border: 1px solid transparent;
-  border-radius: 0.75rem;
+  border-radius: var(--radius);
   font: 500 var(--fs-0) / 1 var(--font-body);
   text-decoration: none;
   transition:
@@ -63,11 +72,26 @@ body {
     box-shadow 0.15s;
 }
 
-.btn--primary {
-  background: #fff;
-  color: var(--primary);
+/* raised buttons: white on the wine hero, wine on the light sections */
+.btn--primary,
+.btn--wine {
+  background: var(--btn-bg);
   font-weight: 600;
   box-shadow: 0 3px 0 var(--btn-shadow);
+}
+
+.btn--primary {
+  --btn-bg: #fff;
+  --btn-hover: #f3eced;
+  --btn-shadow: #d6cbce;
+  color: var(--primary);
+}
+
+.btn--wine {
+  --btn-bg: var(--primary);
+  --btn-hover: rgb(160 27 66);
+  --btn-shadow: var(--primary-deep);
+  color: var(--text);
 }
 
 .btn--ghost {
@@ -173,8 +197,9 @@ body {
 
 /* hover only where a pointer can hover, so touch screens don't get stuck states */
 @media (hover: hover) {
-  .btn--primary:hover {
-    background: #f3eced;
+  .btn--primary:hover,
+  .btn--wine:hover {
+    background: var(--btn-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 0 var(--btn-shadow);
   }
@@ -189,7 +214,8 @@ body {
   }
 }
 
-.btn--primary:active {
+.btn--primary:active,
+.btn--wine:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 var(--btn-shadow);
 }
@@ -226,9 +252,9 @@ h1 {
   margin: 0;
   font-family: var(--font-heading);
   font-size: var(--fs-2);
-  font-weight: 400;
+  font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
@@ -335,15 +361,530 @@ h1 br {
   margin-bottom: 0.25rem;
   font-family: var(--font-heading);
   font-size: var(--fs-2);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   color: var(--text);
+}
+
+/* ---------- Light sections ---------- */
+
+.classes,
+.expect,
+.private,
+.about,
+.faq {
+  padding: var(--section-space) var(--gutter);
+  background: var(--cream);
+  color: var(--primary-deep);
+}
+
+.classes :focus-visible,
+.expect :focus-visible,
+.private :focus-visible,
+.about :focus-visible,
+.faq :focus-visible {
+  outline-color: var(--primary);
+}
+
+/* ---------- Classes ---------- */
+
+.classes {
+  background-image: url("../images/food-pattern.svg");
+  background-size: 480px 480px;
+}
+
+h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-2);
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.menu-card {
+  padding: var(--space-3);
+  border: 2px solid var(--primary);
+  background: rgb(255 255 255 / 0.35);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.menu-card h2 {
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-1);
+  text-align: center;
+}
+
+.class {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+  border-top: 2px dashed var(--line);
+}
+
+.class__time {
+  font-family: var(--font-heading);
+  font-size: var(--fs-3);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+/* one chip style for the whole site */
+.class__chip,
+.about__chips li {
+  padding: 0.25rem var(--space-2);
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.class__chip {
+  position: relative;
+  z-index: 1;
+  grid-area: 2 / 1;
+  align-self: start;
+  justify-self: end;
+  margin: var(--space-1);
+}
+
+/* the card's own padding supplies the space below the last row */
+.class:last-of-type {
+  padding-bottom: 0;
+}
+
+.class__when {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.class__icon {
+  font-size: var(--fs-2);
+  line-height: 1;
+  color: var(--primary);
+}
+
+.class__period {
+  font-size: var(--fs-1);
+}
+
+.class img {
+  grid-area: 2 / 1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--primary);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* on small screens the photo follows the time, then the text */
+.class__text {
+  order: 1;
+}
+
+.class__text p {
+  margin: var(--space-1) 0 0;
+  line-height: 1.4;
+}
+
+.class__text .class__price {
+  margin-top: var(--space-3);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.price__usd {
+  font-size: var(--fs-1);
+}
+
+.price__bzd {
+  margin-left: var(--space-1);
+  font-size: var(--fs-0);
+}
+
+.class__details {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--fs-0-half);
+  font-weight: 600;
+  color: rgb(62 8 26 / 0.65);
+}
+
+/* icon fonts have one weight, so a thin outline makes the icons look bolder */
+.class__details .bi,
+.class__includes .bi {
+  -webkit-text-stroke: 0.5px;
+}
+
+.class__text .class__desc {
+  margin-top: var(--space-2);
+}
+
+.class__text .class__meta {
+  margin-top: var(--space-3);
+  font-size: var(--fs-0-quarter);
+  font-weight: 600;
+  color: var(--primary-deep-muted);
+}
+
+.class__includes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-1) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-0-quarter);
+  font-weight: 600;
+  color: var(--primary-deep-muted);
+}
+
+.class__includes li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.class__includes .bi {
+  color: var(--primary);
+}
+
+.class .btn {
+  display: flex;
+  margin-top: var(--space-1);
+}
+
+/* ---------- What to expect ---------- */
+
+.expect,
+.faq {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.section-lead {
+  max-width: 40rem;
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-mid);
+  line-height: 1.4;
+  color: var(--primary-deep-muted);
+}
+
+.steps details {
+  border-top: 2px dashed var(--line);
+}
+
+.steps details:last-child {
+  border-bottom: 2px dashed var(--line);
+}
+
+.steps summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.steps__icon {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.steps summary::-webkit-details-marker {
+  display: none;
+}
+
+.steps summary span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.steps details[open] .steps__toggle {
+  rotate: 180deg;
+}
+
+.steps details p {
+  margin: 0;
+  padding: 0 0 var(--space-3) var(--space-5);
+  line-height: 1.4;
+}
+
+/* smooth open and close; browsers without ::details-content just open instantly */
+@media (prefers-reduced-motion: no-preference) {
+  .steps {
+    interpolate-size: allow-keywords;
+  }
+
+  .steps details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 0.35s ease,
+      content-visibility 0.35s allow-discrete;
+  }
+
+  .steps details[open]::details-content {
+    block-size: auto;
+  }
+
+  .steps__toggle {
+    transition: rotate 0.35s ease;
+  }
+}
+
+.faq__help {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  border: 2px solid var(--primary);
+}
+
+.faq__help p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.faq__help a:not(.btn) {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ---------- Private classes and groups ---------- */
+
+.tickets {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.ticket {
+  display: grid;
+  border: 1px solid rgb(142 21 56 / 0.25);
+  border-radius: 1rem;
+  background: #fffdf8;
+}
+
+.ticket__main {
+  display: grid;
+  gap: var(--space-1);
+  align-content: center;
+  justify-items: start;
+  padding: var(--space-3);
+  border-bottom: 3px dashed var(--line-strong);
+}
+
+.ticket__main p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.ticket__icon {
+  font-size: var(--fs-2);
+  line-height: 1;
+  color: var(--primary);
+}
+
+.ticket__stub {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  align-content: center;
+  padding: var(--space-3);
+  border-radius: 0 0 1rem 1rem;
+  background: var(--primary);
+  color: var(--text);
+  text-align: center;
+}
+
+/* notches where the stub tears off: on the dashed line, either side on small screens */
+.ticket__stub::before,
+.ticket__stub::after {
+  content: "";
+  position: absolute;
+  top: calc(-0.75rem - 1.5px);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--cream);
+}
+
+.ticket__stub::before {
+  left: -0.75rem;
+}
+
+.ticket__stub::after {
+  right: -0.75rem;
+}
+
+.ticket__stub p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ticket__price {
+  display: grid;
+  font-family: var(--font-heading);
+}
+
+.ticket__price .price__bzd {
+  margin: 0;
+}
+
+.ticket .btn {
+  margin-top: var(--space-1);
+}
+
+/* ---------- About ---------- */
+
+.about {
+  display: grid;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+/* stand-in until there is a real photo of Melisha */
+.about__photo {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-1);
+  aspect-ratio: 1;
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius);
+  background: rgb(142 21 56 / 0.12);
+  color: var(--primary);
+  font-weight: 600;
+  text-align: center;
+}
+
+.about__photo .bi {
+  font-size: var(--fs-2);
+  line-height: 1;
+}
+
+.about__text {
+  margin: var(--space-2) 0 0;
+  line-height: 1.4;
+}
+
+.about__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Find us and footer ---------- */
+
+.find {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--section-space) var(--gutter) var(--space-4);
+  background: var(--primary-deep);
+  color: var(--text);
+}
+
+.find h2 {
+  color: var(--text);
+}
+
+.find__lead {
+  margin: var(--space-2) 0 var(--space-3);
+  font-size: var(--fs-mid);
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.find__facts {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.find__facts li {
+  display: flex;
+  gap: var(--space-1);
+  align-items: baseline;
+}
+
+.find__actions {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.find__map {
+  width: 100%;
+  height: 22rem;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-3) var(--gutter) var(--space-4);
+  /* hairline that stops at the page gutters */
+  background:
+    linear-gradient(rgb(255 255 255 / 0.25) 0 0) top center / calc(100% - 2 * var(--gutter)) 1px no-repeat,
+    var(--primary-deep);
+  color: var(--text-muted);
+  font-size: var(--fs-0-quarter);
+}
+
+.site-footer a {
+  color: inherit;
+}
+
+.site-footer__credit {
+  flex-basis: 100%;
+  margin: var(--space-2) 0 0;
 }
 
 /* ---------- Desktop ---------- */
 
 @media (min-width: 60rem) {
+  /* header and menu */
   .site-header {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -383,6 +924,7 @@ h1 br {
     margin-top: 0;
   }
 
+  /* hero */
   .hero__content {
     grid-column: 1;
     align-self: center;
@@ -421,5 +963,157 @@ h1 br {
     width: min(100%, 44rem, 62svh);
     opacity: 1;
     filter: none;
+  }
+
+  /* classes */
+  .menu-card {
+    padding-inline: var(--space-4);
+  }
+
+  .class {
+    grid-template-columns: 20rem 1fr 12rem;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+  }
+
+  /* same offset as the row padding, so the chip lines up with the top of the title */
+  .class__chip {
+    position: absolute;
+    grid-area: auto;
+    top: var(--space-5);
+    right: 0;
+    margin: 0;
+  }
+
+  .class img {
+    grid-area: auto;
+  }
+
+  .class__text {
+    order: 0;
+  }
+
+  .class .btn {
+    display: inline-flex;
+  }
+
+  .class__includes {
+    flex-flow: row wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+  }
+
+  .class__includes li:not(:last-child)::after {
+    content: "";
+    width: 0.375rem;
+    height: 0.375rem;
+    margin-left: var(--space-1);
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* what to expect and FAQ */
+  .expect,
+  .faq {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .faq__help {
+    justify-items: start;
+  }
+
+  /* private classes */
+  .tickets {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ticket {
+    grid-template-columns: 1fr 12rem;
+  }
+
+  .ticket__main {
+    padding: var(--space-4) var(--space-3);
+    border-right: 3px dashed var(--line-strong);
+    border-bottom: 0;
+  }
+
+  .ticket__stub {
+    border-radius: 0 1rem 1rem 0;
+  }
+
+  /* the notches move to the stub's left edge, top and bottom */
+  .ticket__stub::before,
+  .ticket__stub::after {
+    left: -0.75rem;
+    right: auto;
+  }
+
+  .ticket__stub::before {
+    top: -0.75rem;
+  }
+
+  .ticket__stub::after {
+    top: auto;
+    bottom: -0.75rem;
+  }
+
+  /* about: the text comes first in the HTML, the photo sits in the left column */
+  .about {
+    grid-template-columns: 5fr 7fr;
+  }
+
+  .about__photo {
+    grid-column: 1;
+    grid-row: 1;
+    aspect-ratio: 4 / 5;
+  }
+
+  /* find us */
+  .find {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .find__actions {
+    grid-auto-flow: column;
+    justify-content: start;
+  }
+
+  .find__map {
+    height: 26rem;
+  }
+
+  .site-footer__credit {
+    text-align: center;
+  }
+}
+
+@media (min-width: 80rem) {
+  .class {
+    grid-template-columns: 28rem 1fr 12rem;
+  }
+
+  .class__time {
+    font-size: var(--fs-4);
+  }
+
+  .class__icon {
+    font-size: var(--fs-3);
+  }
+
+  .class__period {
+    font-size: var(--fs-2);
+  }
+}
+
+@media (min-width: 90rem) {
+  .class {
+    grid-template-columns: 32rem 1fr 12rem;
+  }
+
+  .class__time {
+    font-size: var(--fs-4-half);
   }
 }

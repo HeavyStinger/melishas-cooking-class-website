@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/main.js" defer></script>
@@ -82,6 +82,264 @@
         happy chefs
       </p>
     </section>
+
+    <section class="classes" id="classes">
+      <div class="menu-card">
+        <h2>Classes</h2>
+        <article class="class">
+          <p class="class__when">
+            <i class="bi bi-sunrise class__icon" aria-hidden="true"></i>
+            <time class="class__time" datetime="08:00">8:00 <span class="class__period">am</span></time>
+          </p>
+          <div class="class__text">
+            <h3>Stuffed Fry Jacks</h3>
+            <p class="class__details"><i class="bi bi-clock" aria-hidden="true"></i>3 hours</p>
+            <p class="class__desc">Knead the dough, fry it golden and stuff it the Belizean way with stewed beans, eggs, cheese, or jam and syrup.</p>
+            <p class="class__meta">Includes</p>
+            <ul class="class__includes">
+              <li><i class="bi bi-cup-hot" aria-hidden="true"></i>Local coffee</li>
+              <li><i class="bi bi-droplet" aria-hidden="true"></i>Water</li>
+              <li><i class="bi bi-cup-straw" aria-hidden="true"></i>Fresh fruit punch</li>
+            </ul>
+            <p class="class__price"><span class="price__usd">US$50</span> <span class="price__bzd">BZ$100</span></p>
+            <a class="btn btn--wine" href="contact.html?class=breakfast">Book the breakfast class</a>
+          </div>
+          <img src="images/breakfast.webp" alt="Fry jack with scrambled eggs, bacon and beans" width="807" height="960" loading="lazy">
+        </article>
+        <article class="class">
+          <p class="class__chip">Master chef's choice</p>
+          <p class="class__when">
+            <i class="bi bi-sun class__icon" aria-hidden="true"></i>
+            <time class="class__time" datetime="11:00">11:00 <span class="class__period">am</span></time>
+          </p>
+          <div class="class__text">
+            <h3>Rice and Beans with Stew Chicken</h3>
+            <p class="class__details"><i class="bi bi-clock" aria-hidden="true"></i>3 hours</p>
+            <p class="class__desc">Cook Belize's classic plate: rice and beans with tender stew chicken, fresh coleslaw and sweet fried plantains.</p>
+            <p class="class__meta">Includes</p>
+            <ul class="class__includes">
+              <li><i class="bi bi-droplet" aria-hidden="true"></i>Water</li>
+              <li><i class="bi bi-cup-straw" aria-hidden="true"></i>Fresh fruit punch</li>
+            </ul>
+            <p class="class__price"><span class="price__usd">US$50</span> <span class="price__bzd">BZ$100</span></p>
+            <a class="btn btn--wine" href="contact.html?class=lunch">Book the lunch class</a>
+          </div>
+          <img src="images/lunch.webp" alt="Rice and beans with grilled chicken and fried plantains" width="1200" height="801" loading="lazy">
+        </article>
+        <article class="class">
+          <p class="class__when">
+            <i class="bi bi-moon-stars class__icon" aria-hidden="true"></i>
+            <time class="class__time" datetime="17:00">5:00 <span class="class__period">pm</span></time>
+          </p>
+          <div class="class__text">
+            <h3>Coconut Creole Shrimp</h3>
+            <p class="class__details"><i class="bi bi-clock" aria-hidden="true"></i>3 hours</p>
+            <p class="class__desc">Simmer locally caught shrimp in a rich, spiced Creole coconut sauce, served with coconut white rice and fried plantains.</p>
+            <p class="class__meta">Includes</p>
+            <ul class="class__includes">
+              <li><i class="bi bi-cup" aria-hidden="true"></i>Welcome drink</li>
+              <li><i class="bi bi-droplet" aria-hidden="true"></i>Water</li>
+            </ul>
+            <p class="class__price"><span class="price__usd">US$50</span> <span class="price__bzd">BZ$100</span></p>
+            <a class="btn btn--wine" href="contact.html?class=dinner">Book the dinner class</a>
+          </div>
+          <img src="images/dinner.webp" alt="Shrimp in a creamy sauce served with rice" width="1200" height="1600" loading="lazy">
+        </article>
+      </div>
+    </section>
+
+    <section class="expect" id="expect">
+      <div>
+        <h2>What happens in your class</h2>
+        <p class="section-lead">No rush and no experience needed. Here's your class from the moment you arrive.</p>
+      </div>
+
+      <div class="steps">
+        <details name="step" open>
+          <summary>
+            <span><i class="bi bi-emoji-smile" aria-hidden="true"></i>Meet Melisha</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Arrive, say hello and hear the story behind the dish you're about to cook.</p>
+        </details>
+        <details name="step">
+          <summary>
+            <span><svg class="steps__icon" aria-hidden="true"><use href="images/food-pattern.svg#plate"/></svg>Cook together</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Get hands-on and cook the whole dish yourself, with Melisha right beside you.</p>
+        </details>
+        <details name="step">
+          <summary>
+            <span><svg class="steps__icon" aria-hidden="true"><use href="images/food-pattern.svg#fork"/></svg>Sit down and eat</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Enjoy the meal you cooked together, with your drinks.</p>
+        </details>
+        <details name="step">
+          <summary>
+            <span><i class="bi bi-journal-text" aria-hidden="true"></i>Take the recipe home</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Leave with a recipe card, so you can cook it again at home.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="private" id="private">
+      <h2>Private Classes</h2>
+      <p class="section-lead">Private classes for two, and special rates for groups of seven or more.</p>
+
+      <div class="tickets">
+        <article class="ticket">
+          <div class="ticket__main">
+            <i class="bi bi-person-heart ticket__icon" aria-hidden="true"></i>
+            <h3>Private class</h3>
+            <p>Choose the menu and the time that suit you, with extra attention from Melisha.</p>
+          </div>
+          <div class="ticket__stub">
+            <p class="ticket__admit">Admit 2</p>
+            <p class="ticket__price"><span class="price__usd">US$250</span><span class="price__bzd">BZ$500</span></p>
+            <a class="btn btn--primary" href="contact.html?class=private">Book it</a>
+          </div>
+        </article>
+
+        <article class="ticket">
+          <div class="ticket__main">
+            <i class="bi bi-people ticket__icon" aria-hidden="true"></i>
+            <h3>Groups of 7 or more</h3>
+            <p>Hotels, tour operators, travel agents and friends travelling together are all welcome.</p>
+          </div>
+          <div class="ticket__stub">
+            <p class="ticket__admit">Admit 7+</p>
+            <p class="ticket__price"><span class="price__usd">Group rate</span><span class="price__bzd">per person</span></p>
+            <a class="btn btn--primary" href="contact.html?class=group">Get a quote</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div>
+        <h2>Meet Melisha</h2>
+        <p class="section-lead">Melisha Coc teaches every class herself, with recipes and stories rooted in Belizean heritage.</p>
+        <p class="about__text">She keeps things slow and welcoming, the way the island likes it, so you leave knowing how to cook the dish and where it comes from.</p>
+        <ul class="about__chips">
+          <li>Authentic</li>
+          <li>Welcoming</li>
+          <li>Fresh and local</li>
+          <li>Hands-on</li>
+        </ul>
+      </div>
+
+      <div class="about__photo">
+        <i class="bi bi-person-fill" aria-hidden="true"></i>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div>
+        <h2>Your questions</h2>
+        <p class="section-lead">Class length, group size, allergies and cancellations, all in one place.</p>
+
+        <div class="faq__help">
+          <h3>Still unsure?</h3>
+          <p>Message us and we'll answer. Or email <a href="mailto:info@melishascookingclass.bz">info@melishascookingclass.bz</a>.</p>
+          <a class="btn btn--wine" href="https://wa.me/5016094868">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            Message us on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="steps">
+        <details name="faq" open>
+          <summary>
+            <span>How long is a class?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>About 3 hours, including sitting down to eat the meal you cooked.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>How many people are in a class?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Classes are small groups, up to 14 guests.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>Do I need cooking experience?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>No. Melisha teaches every step, so you can start from zero.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>What's included?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>The full meal you cook, drinks as listed for your class, and a recipe card to take home.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>How do I book and pay?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Send a booking request. We'll confirm your date by email or WhatsApp and tell you how to pay.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>What if I need to cancel?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Cancel at least 48 hours before your class for a full refund.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>What about allergies?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Tell us when you book. Our classes use shrimp, chicken, wheat and dairy.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>Can we book a private class or a big group?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>Yes. A private class for two, or a special rate for groups of seven or more.</p>
+        </details>
+        <details name="faq">
+          <summary>
+            <span>Where are you?</span>
+            <i class="bi bi-chevron-down steps__toggle" aria-hidden="true"></i>
+          </summary>
+          <p>On the corner of Avenida Mangle and Luciano Reyes Street, Caye Caulker.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="find" id="find">
+      <div>
+        <h2>Find us</h2>
+        <p class="find__lead">Corner of Avenida Mangle and Luciano Reyes Street, Caye Caulker.</p>
+        <ul class="find__facts">
+          <li><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>Caye Caulker, Belize</li>
+          <li><i class="bi bi-clock-fill" aria-hidden="true"></i>Classes at 8:00 am, 11:00 am and 5:00 pm</li>
+        </ul>
+        <div class="find__actions">
+          <a class="btn btn--primary" href="https://www.google.com/maps/search/?api=1&amp;query=Avenida+Mangle+and+Luciano+Reyes+Street+Caye+Caulker+Belize">Open in Google Maps</a>
+          <a class="btn btn--ghost" href="contact.html"><i class="bi bi-envelope-fill" aria-hidden="true"></i> Contact us</a>
+        </div>
+      </div>
+      <iframe class="find__map" title="Map of Melisha's Cooking Class on Caye Caulker" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Avenida+Mangle+and+Luciano+Reyes+Street,+Caye+Caulker,+Belize&amp;output=embed"></iframe>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <small>&copy; 2026 Melisha's Cooking Class</small>
+    <a href="mailto:info@melishascookingclass.bz">info@melishascookingclass.bz</a>
+    <p class="site-footer__credit">Powered by <a href="https://ctechintl.com">Ctech International</a></p>
+  </footer>
 </body>
 </html>
