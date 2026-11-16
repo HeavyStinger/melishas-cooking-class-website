@@ -16,7 +16,8 @@
 <body>
   <header class="site-header">
     <a class="logo" href="index.html">
-      <img src="images/logo.webp" alt="Melisha's Cooking Class" width="505" height="600">
+      <img class="logo__light" src="images/logo.webp" alt="Melisha's Cooking Class" width="505" height="600">
+      <img class="logo__dark" src="images/logo-red.webp" alt="Melisha's Cooking Class" width="505" height="600">
     </a>
 
     <button class="menu-toggle" type="button" popovertarget="menu" aria-label="Open menu">
@@ -31,18 +32,19 @@
       </button>
 
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
+        <li><a href="#home">Home</a></li>
         <li><a href="#classes">Classes</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
 
-      <a class="btn btn--primary" href="#book">Book Now</a>
+      <a class="btn btn--primary" href="contact.html">Book Now</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero" id="home">
       <div class="hero__content">
         <h1>Cooking Classes in <br>Caye Caulker</h1>
 
@@ -52,7 +54,7 @@
         </p>
 
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#book">Book a Class</a>
+          <a class="btn btn--primary" href="contact.html">Book a Class</a>
           <a class="btn btn--ghost" href="#classes">
             View Classes
             <i class="bi bi-arrow-up-right" aria-hidden="true"></i>

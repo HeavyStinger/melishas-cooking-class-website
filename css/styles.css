@@ -7,6 +7,7 @@
   --primary-deep-muted: rgb(62 8 26 / 0.8);
   --radius: 0.75rem;
   --section-space: clamp(4rem, 8vw, 7rem);
+  --header-height: 4.5rem; /* the header once it has shrunk on scroll */
   --line: rgb(142 21 56 / 0.35);
   --line-strong: rgb(142 21 56 / 0.4);
 
@@ -41,6 +42,9 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh; /* with main growing, a short page still ends with the footer at the bottom */
   margin: 0;
   font-family: var(--font-body);
   font-size: var(--fs-0);
@@ -49,9 +53,48 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+main {
+  flex: 1;
+}
+
 :focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* anchored sections stop below the shrunken header */
+[id] {
+  scroll-margin-top: var(--header-height);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .site-header {
+    transition:
+      padding 0.25s ease,
+      background-color 0.25s ease;
+  }
+
+  .logo img,
+  .menu-toggle {
+    transition: height 0.25s ease;
+  }
 }
 
 /* ---------- Buttons ---------- */
@@ -100,11 +143,19 @@ body {
   color: var(--text);
 }
 
+/* for light sections; the inset shadow thickens the line without changing the box size */
+.btn--outline {
+  background: transparent;
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+  color: var(--primary);
+}
+
 /* ---------- Header and menu ---------- */
 
 .site-header {
-  position: absolute;
-  z-index: 1;
+  position: fixed;
+  z-index: 10;
   inset: 0 0 auto;
   display: flex;
   align-items: center;
@@ -171,6 +222,38 @@ body {
   height: auto;
 }
 
+/* once the page has scrolled the header turns white with wine text and shrinks */
+.logo .logo__dark {
+  display: none;
+}
+
+.site-header.is-scrolled {
+  padding-block: var(--space-2);
+  background: #fff;
+}
+
+.site-header.is-scrolled .logo__light {
+  display: none;
+}
+
+.site-header.is-scrolled .logo__dark {
+  display: block;
+}
+
+.site-header.is-scrolled .logo img {
+  height: var(--space-4);
+}
+
+.site-header.is-scrolled .menu-toggle {
+  height: 2.5rem;
+  color: var(--primary);
+}
+
+.site-header.is-scrolled .logo:focus-visible,
+.site-header.is-scrolled .menu-toggle:focus-visible {
+  outline-color: var(--primary);
+}
+
 .menu__close {
   align-self: flex-end;
 }
@@ -208,6 +291,10 @@ body {
     background: rgb(255 255 255 / 0.16);
   }
 
+  .btn--outline:hover {
+    background: rgb(142 21 56 / 0.08);
+  }
+
   .nav-links a:hover {
     text-decoration: underline;
     text-underline-offset: 0.4em;
@@ -222,6 +309,17 @@ body {
 
 /* ---------- Hero ---------- */
 
+/* wine background shared by the hero and the page headers */
+.hero,
+.page-head {
+  background:
+    url("../images/flow-lines.svg") center / cover,
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>") 0 0 / 260px 260px,
+    radial-gradient(ellipse at 70% 45%, transparent 35%, rgb(20 0 8 / 0.45)),
+    linear-gradient(135deg, var(--primary-deep) 0%, rgb(100 14 40) 28%, var(--primary) 55%, rgb(196 32 72) 100%);
+  background-blend-mode: normal, overlay, normal, normal;
+}
+
 .hero {
   position: relative;
   isolation: isolate;
@@ -234,12 +332,6 @@ body {
   column-gap: var(--space-4);
   /* top padding clears the absolutely positioned header */
   padding: 7.5rem var(--gutter) var(--space-3);
-  background:
-    url("../images/flow-lines.svg") center / cover,
-    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>") 0 0 / 260px 260px,
-    radial-gradient(ellipse at 70% 45%, transparent 35%, rgb(20 0 8 / 0.45)),
-    linear-gradient(135deg, var(--primary-deep) 0%, rgb(100 14 40) 28%, var(--primary) 55%, rgb(196 32 72) 100%);
-  background-blend-mode: normal, overlay, normal, normal;
 }
 
 .hero__content {
@@ -263,7 +355,8 @@ h1 br {
   display: none;
 }
 
-.hero__lead {
+.hero__lead,
+.page-head__lead {
   max-width: 56ch;
   margin: var(--space-2) 0 0;
   line-height: 1.4;
@@ -373,7 +466,8 @@ h1 br {
 .expect,
 .private,
 .about,
-.faq {
+.faq,
+.booking-section {
   padding: var(--section-space) var(--gutter);
   background: var(--cream);
   color: var(--primary-deep);
@@ -383,7 +477,8 @@ h1 br {
 .expect :focus-visible,
 .private :focus-visible,
 .about :focus-visible,
-.faq :focus-visible {
+.faq :focus-visible,
+.booking-section :focus-visible {
   outline-color: var(--primary);
 }
 
@@ -881,9 +976,465 @@ h3 {
   margin: var(--space-2) 0 0;
 }
 
+/* ---------- Page header (contact and thank-you pages) ---------- */
+
+/* top padding clears the absolutely positioned header */
+.page-head {
+  padding: 7.5rem var(--gutter) var(--space-5);
+}
+
+/* ---------- Booking form ---------- */
+
+.booking-section {
+  padding-top: var(--space-5);
+}
+
+.booking-layout {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 72rem;
+}
+
+.booking {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+/* ticket that fills in as the guest chooses */
+.summary {
+  align-self: start;
+  border: 1px solid rgb(142 21 56 / 0.25);
+  border-radius: 1rem;
+  background: #fffdf8;
+}
+
+.summary__main {
+  display: grid;
+  gap: 0.25rem;
+  padding: var(--space-3);
+  border-bottom: 3px dashed var(--line-strong);
+}
+
+.summary__label {
+  margin: var(--space-1) 0 0;
+  font-size: var(--fs-0-quarter);
+  font-weight: 600;
+  color: var(--primary-deep-muted);
+}
+
+.summary__label:first-child {
+  margin-top: 0;
+}
+
+.summary__value {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-mid);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
+
+.summary__when {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: var(--space-1) 0 0;
+  font-weight: 600;
+  color: var(--primary-deep-muted);
+}
+
+.summary__item,
+.summary__price {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* icon fonts have one weight, so a thin outline makes the icons look bolder */
+.summary__item .bi,
+.summary__price .bi {
+  color: var(--primary);
+  -webkit-text-stroke: 0.5px;
+}
+
+/* the BZ price sits smaller than the US price, as in the Classes menu */
+.summary__price .price__usd {
+  font-size: inherit;
+}
+
+.summary__price {
+  margin: var(--space-1) 0 var(--space-1);
+  font-family: var(--font-heading);
+  font-size: var(--fs-mid);
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.summary__note {
+  margin: 0 0 var(--space-1);
+  font-size: var(--fs-0-quarter);
+  font-weight: 600;
+  color: var(--primary-deep-muted);
+}
+
+.summary__stub {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  padding: var(--space-3);
+  border-radius: 0 0 1rem 1rem;
+  background: var(--primary);
+  color: var(--text);
+  text-align: center;
+}
+
+.summary__stub svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  fill: currentColor;
+}
+
+.summary__stub p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.summary__admit {
+  font-family: var(--font-heading);
+  font-size: var(--fs-1);
+}
+
+/* notches where the stub tears off, either side of the dashed line */
+.summary__stub::before,
+.summary__stub::after {
+  content: "";
+  position: absolute;
+  top: calc(-0.75rem - 1.5px);
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--cream);
+}
+
+.summary__stub::before {
+  left: -0.75rem;
+}
+
+.summary__stub::after {
+  right: -0.75rem;
+}
+
+.booking__note {
+  margin: 0;
+  line-height: 1.4;
+  font-size: var(--fs-0-quarter);
+  color: var(--primary-deep-muted);
+}
+
+.booking__error {
+  margin: 0;
+  padding: var(--space-2);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.booking__error a {
+  color: var(--primary);
+}
+
+.booking__done {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  max-width: 40rem;
+}
+
+.booking__done p {
+  margin: 0;
+  font-size: var(--fs-mid);
+  line-height: 1.4;
+}
+
+/* progress */
+
+.progress {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  font-size: var(--fs-0-quarter);
+  font-weight: 600;
+  color: var(--primary-deep-muted);
+}
+
+.progress li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  counter-increment: step;
+}
+
+.progress li:not(:last-child) {
+  flex: 1;
+}
+
+.progress li::before {
+  content: counter(step);
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  aspect-ratio: 1;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  color: var(--primary);
+}
+
+/* the line between steps fills in once the step before it is done */
+.progress li:not(:last-child)::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  margin-inline: var(--space-1);
+  background:
+    linear-gradient(var(--primary) 0 0) left / 0 100% no-repeat,
+    var(--line);
+}
+
+.progress .is-done::after {
+  background-size: 100% 100%;
+}
+
+.progress .is-done::before,
+.progress [aria-current="step"]::before {
+  background: var(--primary);
+  color: var(--text);
+}
+
+.progress [aria-current="step"] {
+  color: var(--primary);
+}
+
+/* steps */
+
+.step {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.step__title {
+  margin-bottom: var(--space-3);
+  padding: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-1);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--primary);
+}
+
+.step__fields {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.booking input:not([type="radio"]),
+.booking select,
+.booking textarea {
+  width: 100%;
+  padding: var(--space-2);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--primary-deep);
+  font: inherit;
+}
+
+.field__hint {
+  margin: 0;
+  font-size: var(--fs-0-quarter);
+  color: var(--primary-deep-muted);
+}
+
+.booking textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+/* country code sits beside the number, text only */
+.phone {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.booking .phone select {
+  flex: none;
+  width: 8.5rem;
+  padding-inline: var(--space-1);
+}
+
+/* class cards */
+
+.picks {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.pick {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--primary);
+  border-radius: 1rem;
+  background: #fffdf8;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+/* the radio covers the whole card, so the card is the click target */
+.pick input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.pick:has(input:checked) {
+  background: var(--primary);
+  color: var(--text);
+}
+
+.pick:has(input:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.pick__time {
+  grid-row: span 2;
+  font-family: var(--font-heading);
+  font-size: var(--fs-2);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--primary);
+}
+
+.pick__period {
+  font-size: var(--fs-1);
+}
+
+.pick__name {
+  font-family: var(--font-heading);
+  font-size: var(--fs-mid);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.pick__price {
+  font-size: var(--fs-0-quarter);
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.pick:has(input:checked) .pick__time,
+.pick:has(input:checked) .pick__name {
+  color: var(--text);
+}
+
+.pick--small {
+  grid-template-columns: 1fr;
+}
+
+.pick--small .pick__name {
+  color: var(--primary);
+}
+
+/* buttons: the main action first on small screens */
+
+.booking__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.booking__nav .btn--wine {
+  order: -1;
+  cursor: pointer;
+}
+
+.booking__nav .btn {
+  cursor: pointer;
+}
+
+/* motion */
+
+@media (prefers-reduced-motion: no-preference) {
+  .progress li::before {
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  .progress li:not(:last-child)::after {
+    transition: background-size 0.4s ease;
+  }
+
+  /* data-direction is only set once someone moves between steps */
+  .booking[data-direction] .step:not([hidden]) {
+    animation: step-in 0.35s ease-out;
+  }
+
+  .booking[data-direction="back"] .step:not([hidden]) {
+    animation-name: step-in-back;
+  }
+
+  @keyframes step-in {
+    from {
+      opacity: 0;
+      transform: translateX(2rem);
+    }
+  }
+
+  @keyframes step-in-back {
+    from {
+      opacity: 0;
+      transform: translateX(-2rem);
+    }
+  }
+}
+
 /* ---------- Desktop ---------- */
 
 @media (min-width: 60rem) {
+  :root {
+    --header-height: 5.25rem;
+  }
+
   /* header and menu */
   .site-header {
     display: grid;
@@ -922,6 +1473,23 @@ h3 {
     grid-row: 1;
     justify-self: end;
     margin-top: 0;
+  }
+
+  /* on desktop the nav sits right in the header, so it follows the white background */
+  .site-header.is-scrolled .nav-links a {
+    color: var(--primary);
+  }
+
+  .site-header.is-scrolled .menu .btn {
+    --btn-bg: var(--primary);
+    --btn-hover: rgb(160 27 66);
+    --btn-shadow: var(--primary-deep);
+    color: var(--text);
+  }
+
+  .site-header.is-scrolled .nav-links a:focus-visible,
+  .site-header.is-scrolled .menu .btn:focus-visible {
+    outline-color: var(--primary);
   }
 
   /* hero */
@@ -1068,6 +1636,56 @@ h3 {
     grid-column: 1;
     grid-row: 1;
     aspect-ratio: 4 / 5;
+  }
+
+  /* booking form */
+  .booking-layout {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .summary {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-3));
+  }
+
+  .step__fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .step__fields .field--wide {
+    grid-column: 1 / -1;
+  }
+
+  .picks {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .pick {
+    grid-column: span 2;
+    grid-template-columns: 1fr;
+    row-gap: var(--space-1);
+    padding: var(--space-3);
+  }
+
+  .pick--small {
+    grid-column: span 3;
+  }
+
+  .pick__time {
+    grid-row: auto;
+  }
+
+  .booking__nav {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .booking__nav .btn--wine {
+    order: 0;
+  }
+
+  .booking__nav [data-back] {
+    margin-right: auto;
   }
 
   /* find us */

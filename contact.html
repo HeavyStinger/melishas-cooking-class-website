@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book a class | Melisha's Cooking Class</title>
+  <meta name="description" content="Request a cooking class with Melisha in Caye Caulker. Pick a class, a date and a group size, and we'll confirm by email or WhatsApp.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/booking.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="index.html">
+      <img class="logo__light" src="images/logo.webp" alt="Melisha's Cooking Class" width="505" height="600">
+      <img class="logo__dark" src="images/logo-red.webp" alt="Melisha's Cooking Class" width="505" height="600">
+    </a>
+
+    <button class="menu-toggle" type="button" popovertarget="menu" aria-label="Open menu">
+      <svg viewBox="0 0 32 22" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
+        <path d="M2 2h28M2 11h28M2 20h28"/>
+      </svg>
+    </button>
+
+    <nav class="menu" id="menu" popover>
+      <button class="menu__close" type="button" popovertarget="menu" popovertargetaction="hide" aria-label="Close menu">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#classes">Classes</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+
+      <a class="btn btn--primary" href="contact.html">Book Now</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <h1>Book a class</h1>
+      <p class="page-head__lead">Tell us when you'd like to cook and we'll confirm your date.</p>
+    </section>
+
+    <section class="booking-section">
+      <div class="booking-layout">
+        <form class="booking" method="post" action="https://api.web3forms.com/submit">
+          <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+          <input type="hidden" name="subject" value="New booking request">
+          <input type="hidden" name="from_name" value="Melisha's Cooking Class website">
+        <input type="hidden" name="estimated_total">
+          <input type="checkbox" name="botcheck" hidden>
+
+          <ol class="progress" aria-label="Booking steps">
+            <li>Class</li>
+            <li>Date</li>
+            <li>Details</li>
+          </ol>
+
+          <fieldset class="step" tabindex="-1">
+            <legend class="step__title">Pick your class</legend>
+            <div class="picks">
+              <label class="pick">
+                <input type="radio" name="class" value="breakfast" data-usd="50" data-bzd="100" data-per-person required>
+                <span class="pick__time">8:00 <span class="pick__period">am</span></span>
+                <span class="pick__name">Stuffed Fry Jacks</span>
+                <span class="pick__price">US$50 &middot; BZ$100 per person</span>
+              </label>
+              <label class="pick">
+                <input type="radio" name="class" value="lunch" data-usd="50" data-bzd="100" data-per-person required>
+                <span class="pick__time">11:00 <span class="pick__period">am</span></span>
+                <span class="pick__name">Rice and Beans with Stew Chicken</span>
+                <span class="pick__price">US$50 &middot; BZ$100 per person</span>
+              </label>
+              <label class="pick">
+                <input type="radio" name="class" value="dinner" data-usd="50" data-bzd="100" data-per-person required>
+                <span class="pick__time">5:00 <span class="pick__period">pm</span></span>
+                <span class="pick__name">Coconut Creole Shrimp</span>
+                <span class="pick__price">US$50 &middot; BZ$100 per person</span>
+              </label>
+              <label class="pick pick--small">
+                <input type="radio" name="class" value="private" data-usd="250" data-bzd="500" required>
+                <span class="pick__name">Private class for two</span>
+                <span class="pick__price">US$250 &middot; BZ$500</span>
+              </label>
+              <label class="pick pick--small">
+                <input type="radio" name="class" value="group" required>
+                <span class="pick__name">Group of 7 or more</span>
+                <span class="pick__price">Group rate, per person</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="step" tabindex="-1">
+            <legend class="step__title">When, and how many?</legend>
+            <div class="step__fields">
+              <div class="field">
+                <label for="date">Preferred date</label>
+                <input id="date" type="date" name="date" required>
+              </div>
+              <div class="field">
+                <label for="guests">Guests</label>
+                <input id="guests" type="number" name="guests" min="1" value="1" inputmode="numeric" aria-describedby="guests-hint" required>
+                <p class="field__hint" id="guests-hint" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="step" tabindex="-1">
+            <legend class="step__title">Your details</legend>
+            <div class="step__fields">
+              <div class="field field--wide">
+                <label for="name">Your name</label>
+                <input id="name" type="text" name="name" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="phone">WhatsApp or phone (optional)</label>
+                <div class="phone">
+                  <select name="country_code" aria-label="Country code" autocomplete="tel-country-code">
+                    <optgroup label="Common">
+                      <option value="+1" selected>+1 United States</option>
+                      <option value="+1">+1 Canada</option>
+                      <option value="+44">+44 United Kingdom</option>
+                      <option value="+501">+501 Belize</option>
+                    </optgroup>
+                    <optgroup label="All countries">
+                      <option value="+54">+54 Argentina</option>
+                      <option value="+61">+61 Australia</option>
+                      <option value="+43">+43 Austria</option>
+                      <option value="+1">+1 Bahamas</option>
+                      <option value="+1">+1 Barbados</option>
+                      <option value="+32">+32 Belgium</option>
+                      <option value="+591">+591 Bolivia</option>
+                      <option value="+55">+55 Brazil</option>
+                      <option value="+359">+359 Bulgaria</option>
+                      <option value="+56">+56 Chile</option>
+                      <option value="+86">+86 China</option>
+                      <option value="+57">+57 Colombia</option>
+                      <option value="+506">+506 Costa Rica</option>
+                      <option value="+385">+385 Croatia</option>
+                      <option value="+53">+53 Cuba</option>
+                      <option value="+357">+357 Cyprus</option>
+                      <option value="+420">+420 Czechia</option>
+                      <option value="+45">+45 Denmark</option>
+                      <option value="+1">+1 Dominican Republic</option>
+                      <option value="+593">+593 Ecuador</option>
+                      <option value="+20">+20 Egypt</option>
+                      <option value="+503">+503 El Salvador</option>
+                      <option value="+372">+372 Estonia</option>
+                      <option value="+358">+358 Finland</option>
+                      <option value="+33">+33 France</option>
+                      <option value="+49">+49 Germany</option>
+                      <option value="+30">+30 Greece</option>
+                      <option value="+502">+502 Guatemala</option>
+                      <option value="+592">+592 Guyana</option>
+                      <option value="+509">+509 Haiti</option>
+                      <option value="+504">+504 Honduras</option>
+                      <option value="+852">+852 Hong Kong</option>
+                      <option value="+36">+36 Hungary</option>
+                      <option value="+354">+354 Iceland</option>
+                      <option value="+91">+91 India</option>
+                      <option value="+62">+62 Indonesia</option>
+                      <option value="+353">+353 Ireland</option>
+                      <option value="+972">+972 Israel</option>
+                      <option value="+39">+39 Italy</option>
+                      <option value="+1">+1 Jamaica</option>
+                      <option value="+81">+81 Japan</option>
+                      <option value="+254">+254 Kenya</option>
+                      <option value="+371">+371 Latvia</option>
+                      <option value="+370">+370 Lithuania</option>
+                      <option value="+352">+352 Luxembourg</option>
+                      <option value="+60">+60 Malaysia</option>
+                      <option value="+356">+356 Malta</option>
+                      <option value="+52">+52 Mexico</option>
+                      <option value="+31">+31 Netherlands</option>
+                      <option value="+64">+64 New Zealand</option>
+                      <option value="+505">+505 Nicaragua</option>
+                      <option value="+234">+234 Nigeria</option>
+                      <option value="+47">+47 Norway</option>
+                      <option value="+507">+507 Panama</option>
+                      <option value="+595">+595 Paraguay</option>
+                      <option value="+51">+51 Peru</option>
+                      <option value="+63">+63 Philippines</option>
+                      <option value="+48">+48 Poland</option>
+                      <option value="+351">+351 Portugal</option>
+                      <option value="+1">+1 Puerto Rico</option>
+                      <option value="+40">+40 Romania</option>
+                      <option value="+966">+966 Saudi Arabia</option>
+                      <option value="+65">+65 Singapore</option>
+                      <option value="+421">+421 Slovakia</option>
+                      <option value="+386">+386 Slovenia</option>
+                      <option value="+27">+27 South Africa</option>
+                      <option value="+82">+82 South Korea</option>
+                      <option value="+34">+34 Spain</option>
+                      <option value="+46">+46 Sweden</option>
+                      <option value="+41">+41 Switzerland</option>
+                      <option value="+886">+886 Taiwan</option>
+                      <option value="+66">+66 Thailand</option>
+                      <option value="+1">+1 Trinidad and Tobago</option>
+                      <option value="+90">+90 Turkey</option>
+                      <option value="+380">+380 Ukraine</option>
+                      <option value="+971">+971 United Arab Emirates</option>
+                      <option value="+598">+598 Uruguay</option>
+                      <option value="+58">+58 Venezuela</option>
+                      <option value="+84">+84 Vietnam</option>
+                    </optgroup>
+                  </select>
+                  <input id="phone" type="tel" name="phone" autocomplete="tel-national">
+                </div>
+              </div>
+              <div class="field field--wide">
+                <label for="notes">Allergies or questions (optional)</label>
+                <textarea id="notes" name="notes"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="booking__nav">
+            <button class="btn btn--outline" type="button" data-back hidden>Back</button>
+            <button class="btn btn--wine" type="button" data-next hidden>Next</button>
+            <button class="btn btn--wine" type="submit" data-send>Send booking request</button>
+          </div>
+
+          <p class="booking__error" role="alert" hidden>
+            Something went wrong and your request was not sent. Please try again, or message us on
+            <a href="https://wa.me/5016094868">WhatsApp</a>.
+          </p>
+
+          <p class="booking__note">No payment is taken here. We'll confirm your date first.</p>
+        </form>
+        <aside class="summary" aria-label="Your booking so far">
+          <div class="summary__main">
+            <p class="summary__label">Class</p>
+            <p class="summary__value" data-bind="class" data-empty="Not chosen yet">Not chosen yet</p>
+            <p class="summary__when">
+              <span class="summary__item">
+                <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                <span class="visually-hidden">Date:</span>
+                <span data-bind="date" data-empty="Pick a date">Pick a date</span>
+              </span>
+              <span class="summary__item">
+                <i class="bi bi-clock" aria-hidden="true"></i>
+                <span class="visually-hidden">Time:</span>
+                <span data-bind="time" data-empty="Pick a class">Pick a class</span>
+              </span>
+            </p>
+            <p class="summary__price">
+              <i class="bi bi-tag" aria-hidden="true"></i>
+              <span class="visually-hidden">Price:</span>
+              <span data-bind="price" data-empty="Pick a class">Pick a class</span>
+            </p>
+            <p class="summary__note" data-bind="priceNote" data-empty="" hidden></p>
+            <p class="summary__label">Name</p>
+            <p class="summary__value" data-bind="name" data-empty="Not filled in yet">Not filled in yet</p>
+          </div>
+          <div class="summary__stub">
+            <svg aria-hidden="true"><use href="images/food-pattern.svg#plate"/></svg>
+            <p>Admit</p>
+            <p class="summary__admit" data-bind="guests" data-empty="1 guest">1 guest</p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="booking__done" tabindex="-1" hidden>
+        <h2>Thank you</h2>
+        <p>We've got your request and will confirm your date by email or WhatsApp soon.</p>
+        <a class="btn btn--wine" href="index.html">Back to the home page</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>&copy; 2026 Melisha's Cooking Class</small>
+    <a href="mailto:info@melishascookingclass.bz">info@melishascookingclass.bz</a>
+    <p class="site-footer__credit">Powered by <a href="https://ctechintl.com">Ctech International</a></p>
+  </footer>
+</body>
+</html>
