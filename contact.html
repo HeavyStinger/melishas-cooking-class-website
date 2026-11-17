@@ -18,7 +18,7 @@
   <header class="site-header">
     <a class="logo" href="index.html">
       <img class="logo__light" src="images/logo.webp" alt="Melisha's Cooking Class" width="505" height="600">
-      <img class="logo__dark" src="images/logo-red.webp" alt="Melisha's Cooking Class" width="505" height="600">
+      <img class="logo__dark" src="images/logo-dark.webp" alt="Melisha's Cooking Class" width="505" height="600">
     </a>
 
     <button class="menu-toggle" type="button" popovertarget="menu" aria-label="Open menu">
@@ -229,14 +229,19 @@
 
           <div class="booking__nav">
             <button class="btn btn--outline" type="button" data-back hidden>Back</button>
-            <button class="btn btn--wine" type="button" data-next hidden>Next</button>
-            <button class="btn btn--wine" type="submit" data-send>Send booking request</button>
+            <button class="btn btn--brand" type="button" data-next hidden>Next</button>
+            <button class="btn btn--brand" type="submit" data-send>Send booking request</button>
           </div>
 
           <p class="booking__error" role="alert" hidden>
-            Something went wrong and your request was not sent. Please try again, or message us on
-            <a href="https://wa.me/5016094868">WhatsApp</a>.
+            <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+            <span>
+              Something went wrong and your request was not sent. Please try again, or message us on
+              <a href="https://wa.me/5016094868">WhatsApp</a>.
+            </span>
           </p>
+
+          <p class="visually-hidden" role="status" data-status></p>
 
           <p class="booking__note">No payment is taken here. We'll confirm your date first.</p>
         </form>
@@ -276,7 +281,7 @@
       <div class="booking__done" tabindex="-1" hidden>
         <h2>Thank you</h2>
         <p>We've got your request and will confirm your date by email or WhatsApp soon.</p>
-        <a class="btn btn--wine" href="index.html">Back to the home page</a>
+        <a class="btn btn--brand" href="index.html">Back to the home page</a>
       </div>
     </section>
   </main>

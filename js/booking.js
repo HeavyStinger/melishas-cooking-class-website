@@ -8,8 +8,19 @@ if (form) {
   const back = form.querySelector("[data-back]");
   const next = form.querySelector("[data-next]");
   const send = form.querySelector("[data-send]");
+  const status = form.querySelector("[data-status]");
+  const error = form.querySelector(".booking__error");
+  const done = document.querySelector(".booking__done");
+  const layout = form.closest(".booking-layout");
+  const bound = document.querySelectorAll("[data-bind]");
+  const guests = form.elements.guests;
+  const guestsHint = document.getElementById("guests-hint");
+  const sendLabel = send.textContent;
   const last = steps.length - 1;
   let current = 0;
+
+  // the messages below replace the browser's own validation bubbles
+  form.noValidate = true;
 
   // no booking in the past; en-CA formats the local date as YYYY-MM-DD
   form.elements.date.min = new Date().toLocaleDateString("en-CA");
@@ -18,6 +29,8 @@ if (form) {
   const wanted = new URLSearchParams(location.search).get("class");
   const preset = form.querySelector(`input[name="class"][value="${CSS.escape(wanted ?? "")}"]`);
   if (preset) preset.checked = true;
+
+  /* ---------- steps ---------- */
 
   function show(index) {
     current = index;
@@ -39,33 +52,106 @@ if (form) {
     form.querySelector(".progress").scrollIntoView({ block: "nearest" });
   }
 
-  function advance() {
-    const invalid = [...steps[current].querySelectorAll("input, textarea")].find(
-      (field) => !field.checkValidity(),
-    );
-    if (invalid) {
-      invalid.reportValidity();
-      return;
+  /* ---------- error states ---------- */
+
+  const missing = {
+    class: "Pick a class to continue.",
+    date: "Choose the date you'd like to come.",
+    guests: "Enter how many guests.",
+    name: "Enter your name.",
+    email: "Enter your email address.",
+  };
+
+  function problem(field) {
+    const { validity } = field;
+    if (validity.valid) return "";
+    if (validity.valueMissing) return missing[field.name];
+    if (validity.typeMismatch) return "That email address doesn't look right.";
+    if (validity.badInput) return "That doesn't look like a valid date.";
+    if (validity.rangeUnderflow) {
+      if (field.type === "date") return "Choose today or a later date.";
+      return Number(field.min) > 1 ? `Groups start at ${field.min} guests.` : "Enter at least 1 guest.";
     }
-    go(current + 1, "forward");
+    return field.validationMessage;
+  }
+
+  // one message element per field, made the first time it is needed
+  function messageFor(field) {
+    const radios = field.type === "radio";
+    const anchor = radios ? field.closest(".picks") : field.closest(".field");
+    let message = radios ? anchor.nextElementSibling : anchor.querySelector(".field__error");
+    if (!message?.matches(".field__error")) {
+      message = document.createElement("p");
+      message.className = "field__error";
+      message.id = `${field.name}-error`;
+      message.hidden = true;
+      message.innerHTML = '<i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span></span>';
+      if (radios) anchor.after(message);
+      else anchor.append(message);
+    }
+    return message;
+  }
+
+  function describedBy(control, id, on) {
+    const ids = new Set((control.getAttribute("aria-describedby") ?? "").split(" ").filter(Boolean));
+    if (on) ids.add(id);
+    else ids.delete(id);
+    if (ids.size) control.setAttribute("aria-describedby", [...ids].join(" "));
+    else control.removeAttribute("aria-describedby");
+  }
+
+  // returns true when the field is fine; otherwise shows the message under it
+  function check(field) {
+    const text = problem(field);
+    const message = messageFor(field);
+    const group = field.type === "radio" ? [...form.elements.class] : [field];
+
+    message.querySelector("span").textContent = text;
+    message.hidden = !text;
+    group.forEach((control) => {
+      if (text) control.setAttribute("aria-invalid", "true");
+      else control.removeAttribute("aria-invalid");
+      describedBy(control, message.id, Boolean(text));
+    });
+    if (field.type === "radio") field.closest(".picks").classList.toggle("is-invalid", Boolean(text));
+    return !text;
+  }
+
+  // checks every field in a step and returns the first one with a problem
+  function firstInvalid(index) {
+    const fields = [...steps[index].querySelectorAll("input, textarea")].filter(
+      (field) => field.type !== "radio" || field === form.elements.class[0],
+    );
+    return fields.filter((field) => !check(field))[0] ?? null;
+  }
+
+  function advance() {
+    const bad = firstInvalid(current);
+    if (bad) bad.focus();
+    else go(current + 1, "forward");
   }
 
   next.addEventListener("click", advance);
   back.addEventListener("click", () => go(current - 1, "back"));
 
-  const error = form.querySelector(".booking__error");
-  const done = document.querySelector(".booking__done");
-  const layout = form.closest(".booking-layout");
-  const bound = document.querySelectorAll("[data-bind]");
+  // a message goes away as soon as the field is fixed, and a finished field is checked on leaving it
+  form.addEventListener("input", (event) => {
+    if (event.target.hasAttribute("aria-invalid")) check(event.target);
+  });
 
-  const guests = form.elements.guests;
-  const guestsHint = document.getElementById("guests-hint");
+  form.addEventListener("focusout", (event) => {
+    const field = event.target;
+    if (field.matches("input:not([type='radio']), textarea") && field.value) check(field);
+  });
+
+  /* ---------- guests follow the class ---------- */
+
   const guestRules = {
     private: { min: 2, max: 2, hint: "Private classes are for two guests." },
     group: { min: 7, max: "", hint: "Groups start at seven guests. Tell us your numbers in the notes." },
   };
 
-  // the guest count follows the class: two for a private class, seven or more for a group
+  // two for a private class, seven or more for a group
   function syncGuests() {
     const rule = guestRules[form.elements.class.value] ?? { min: 1, max: "", hint: "" };
     const wasSpecial = Number(guests.min) > 1;
@@ -79,7 +165,8 @@ if (form) {
     else guests.value = Math.max(Number(guests.value), rule.min);
   }
 
-  // the ticket beside the form mirrors the answers so far
+  /* ---------- the ticket beside the form ---------- */
+
   const pickedRadio = () => [...form.elements.class].find((radio) => radio.checked);
   const picked = () => pickedRadio()?.closest("label");
 
@@ -155,7 +242,11 @@ if (form) {
 
   form.addEventListener("input", updateTicket);
   form.addEventListener("change", (event) => {
-    if (event.target.name === "class") syncGuests();
+    if (event.target.name === "class") {
+      syncGuests();
+      if (form.elements.class[0].hasAttribute("aria-invalid")) check(form.elements.class[0]);
+      if (guests.hasAttribute("aria-invalid")) check(guests);
+    }
     updateTicket();
   });
   syncGuests();
@@ -170,6 +261,18 @@ if (form) {
     }, 250);
   });
 
+  /* ---------- sending ---------- */
+
+  function setSending(on) {
+    form.classList.toggle("is-sending", on);
+    form.setAttribute("aria-busy", String(on));
+    steps.forEach((step) => (step.disabled = on));
+    back.disabled = on;
+    send.disabled = on;
+    send.textContent = on ? "Sending…" : sendLabel;
+    status.textContent = on ? "Sending your request…" : "";
+  }
+
   // Enter inside a field moves on instead of sending half a form
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -179,14 +282,26 @@ if (form) {
       return;
     }
 
+    // check every step, in case an earlier answer was edited after going back
+    for (let i = 0; i <= last; i++) {
+      const bad = firstInvalid(i);
+      if (bad) {
+        if (i !== current) go(i, "back");
+        bad.focus();
+        return;
+      }
+    }
+
     error.hidden = true;
-    send.disabled = true;
+    const body = new FormData(form); // read before the fields are disabled
+    setSending(true);
 
     try {
       const response = await fetch(form.action, {
         method: "POST",
         headers: { Accept: "application/json" },
-        body: new FormData(form),
+        body,
+        signal: AbortSignal.timeout(15000),
       });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error(result.message);
@@ -196,8 +311,9 @@ if (form) {
       done.hidden = false;
       done.focus();
     } catch {
+      setSending(false);
       error.hidden = false;
-      send.disabled = false;
+      error.scrollIntoView({ block: "nearest" });
     }
   });
 
