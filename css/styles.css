@@ -364,6 +364,10 @@ h1 br {
   color: var(--text-muted);
 }
 
+.page-head__lead a {
+  color: var(--text);
+}
+
 .hero__actions {
   display: flex;
   flex-direction: column;
@@ -515,6 +519,14 @@ h2 {
   text-align: center;
 }
 
+.menu-card__note {
+  max-width: 36rem;
+  margin: 0 auto var(--space-3);
+  line-height: 1.4;
+  text-align: center;
+  color: var(--primary-deep-muted);
+}
+
 .class {
   position: relative;
   display: grid;
@@ -664,7 +676,8 @@ h3 {
   gap: var(--space-1);
 }
 
-.class__includes .bi {
+.class__includes .bi,
+.class__includes .steps__icon {
   color: var(--primary);
 }
 
@@ -1174,7 +1187,8 @@ h3 {
   margin-top: var(--space-2);
 }
 
-.booking [aria-invalid="true"] {
+.booking [aria-invalid="true"],
+.inquiry__form [aria-invalid="true"] {
   border-color: var(--error);
   box-shadow: inset 0 0 0 1px var(--error);
 }
@@ -1184,17 +1198,20 @@ h3 {
 }
 
 /* sending: the form is locked and the button shows it is working */
-.booking.is-sending .step {
+.booking.is-sending .step,
+.inquiry__form.is-sending .field {
   opacity: 0.6;
 }
 
-.booking__nav .btn:disabled {
+.booking__nav .btn:disabled,
+.inquiry__form .btn:disabled {
   cursor: progress;
   opacity: 0.8;
   transform: none;
 }
 
-.booking.is-sending [data-send]::before {
+.booking.is-sending [data-send]::before,
+.inquiry__form.is-sending [data-send]::before {
   content: "";
   width: 1em;
   height: 1em;
@@ -1203,14 +1220,42 @@ h3 {
   border-radius: 50%;
 }
 
-.booking__done {
+/* general inquiry sits under the booking form, split by a dashed line like the rest of the site */
+.inquiry {
+  padding-top: 0;
+}
+
+.inquiry__inner {
+  max-width: 72rem;
+  padding-top: var(--space-5);
+  border-top: 2px dashed var(--line);
+}
+
+.inquiry__form {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 40rem;
+  margin-top: var(--space-4);
+}
+
+.inquiry__form .btn {
+  cursor: pointer;
+}
+
+.inquiry__done {
+  margin-top: var(--space-4);
+}
+
+.booking__done,
+.inquiry__done {
   display: grid;
   gap: var(--space-3);
   justify-items: start;
   max-width: 40rem;
 }
 
-.booking__done p {
+.booking__done p,
+.inquiry__done p {
   margin: 0;
   font-size: var(--fs-mid);
   line-height: 1.4;
@@ -1304,6 +1349,7 @@ h3 {
 
 .field {
   display: grid;
+  align-content: start;
   gap: var(--space-1);
 }
 
@@ -1313,7 +1359,9 @@ h3 {
 
 .booking input:not([type="radio"]),
 .booking select,
-.booking textarea {
+.booking textarea,
+.inquiry__form input,
+.inquiry__form textarea {
   width: 100%;
   padding: var(--space-2);
   border: 2px solid var(--primary);
@@ -1329,7 +1377,8 @@ h3 {
   color: var(--primary-deep-muted);
 }
 
-.booking textarea {
+.booking textarea,
+.inquiry__form textarea {
   min-height: 7rem;
   resize: vertical;
 }
@@ -1468,7 +1517,8 @@ h3 {
     animation-name: step-in-back;
   }
 
-  .booking.is-sending [data-send]::before {
+  .booking.is-sending [data-send]::before,
+  .inquiry__form.is-sending [data-send]::before {
     animation: spin 0.7s linear infinite;
   }
 
@@ -1755,6 +1805,10 @@ h3 {
 
   .booking__nav [data-back] {
     margin-right: auto;
+  }
+
+  .inquiry__form .btn {
+    justify-self: start;
   }
 
   /* find us */

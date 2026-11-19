@@ -72,6 +72,7 @@ if (form) {
       if (field.type === "date") return "Choose today or a later date.";
       return Number(field.min) > 1 ? `Groups start at ${field.min} guests.` : "Enter at least 1 guest.";
     }
+    if (validity.rangeOverflow) return `A class takes up to ${field.max} guests.`;
     return field.validationMessage;
   }
 
@@ -148,12 +149,17 @@ if (form) {
 
   const guestRules = {
     private: { min: 2, max: 2, hint: "Private classes are for two guests." },
-    group: { min: 7, max: "", hint: "Groups start at seven guests. Tell us your numbers in the notes." },
+    group: { min: 10, max: 16, hint: "Groups are 10 to 16 guests. Tell us your numbers in the notes." },
+  };
+  const publicRule = {
+    min: 1,
+    max: 16,
+    hint: "A class runs with 3 or more guests. Booking just one space is fine, we'll confirm once the class has 3.",
   };
 
-  // two for a private class, seven or more for a group
+  // two for a private class, ten to sixteen for a group, otherwise up to sixteen
   function syncGuests() {
-    const rule = guestRules[form.elements.class.value] ?? { min: 1, max: "", hint: "" };
+    const rule = guestRules[form.elements.class.value] ?? publicRule;
     const wasSpecial = Number(guests.min) > 1;
     guests.min = rule.min;
     guests.max = rule.max;
