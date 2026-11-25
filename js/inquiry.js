@@ -66,6 +66,25 @@ if (form) {
     if (fields.includes(event.target) && event.target.value) check(event.target);
   });
 
+  // the Web3Forms script draws the hCaptcha box and puts its answer in a hidden "h-captcha-response" field
+  const captchaBox = form.querySelector(".h-captcha");
+
+  function captchaAnswered() {
+    const answer = form.querySelector('[name="h-captcha-response"]');
+    let message = captchaBox.parentElement.querySelector(".field__error");
+    if (!message) {
+      message = document.createElement("p");
+      message.className = "field__error";
+      message.hidden = true;
+      message.innerHTML = '<i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span>Tick the box to show you are not a robot.</span>';
+      captchaBox.parentElement.append(message);
+    }
+    // without the script (blocked, offline) there is no answer field, so the server decides
+    const missing = Boolean(answer) && !answer.value;
+    message.hidden = !missing;
+    return !missing;
+  }
+
   function setSending(on) {
     form.classList.toggle("is-sending", on);
     form.setAttribute("aria-busy", String(on));
@@ -83,6 +102,8 @@ if (form) {
       bad.focus();
       return;
     }
+
+    if (!captchaAnswered()) return;
 
     error.hidden = true;
     const body = new FormData(form); // read before the fields are disabled
@@ -102,6 +123,7 @@ if (form) {
       done.hidden = false;
       done.focus();
     } catch {
+      window.hcaptcha?.reset(); // each answer works once
       setSending(false);
       error.hidden = false;
       error.scrollIntoView({ block: "nearest" });

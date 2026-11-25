@@ -62,7 +62,15 @@ if (form) {
     email: "Enter your email address.",
   };
 
+  // the phone number is optional, but when something is typed it has to be a number
+  function phoneProblem(value) {
+    if (!/^[\d\s().-]+$/.test(value)) return "Use numbers only in the phone number.";
+    const digits = value.replace(/\D/g, "").length;
+    return digits < 6 || digits > 12 ? "That phone number looks too short or too long." : "";
+  }
+
   function problem(field) {
+    if (field.name === "phone" && field.value.trim()) return phoneProblem(field.value.trim());
     const { validity } = field;
     if (validity.valid) return "";
     if (validity.valueMissing) return missing[field.name];
@@ -121,9 +129,30 @@ if (form) {
   // checks every field in a step and returns the first one with a problem
   function firstInvalid(index) {
     const fields = [...steps[index].querySelectorAll("input, textarea")].filter(
-      (field) => field.type !== "radio" || field === form.elements.class[0],
+      (field) => field.name !== "h-captcha-response" && (field.type !== "radio" || field === form.elements.class[0]),
     );
     return fields.filter((field) => !check(field))[0] ?? null;
+  }
+
+  /* ---------- captcha ---------- */
+
+  // the Web3Forms script draws the hCaptcha box and puts its answer in a hidden "h-captcha-response" field
+  const captchaBox = form.querySelector(".h-captcha");
+
+  function captchaAnswered() {
+    const answer = form.querySelector('[name="h-captcha-response"]');
+    let message = captchaBox.parentElement.querySelector(".field__error");
+    if (!message) {
+      message = document.createElement("p");
+      message.className = "field__error";
+      message.hidden = true;
+      message.innerHTML = '<i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i><span>Tick the box to show you are not a robot.</span>';
+      captchaBox.parentElement.append(message);
+    }
+    // without the script (blocked, offline) there is no answer field, so the server decides
+    const missing = Boolean(answer) && !answer.value;
+    message.hidden = !missing;
+    return !missing;
   }
 
   function advance() {
@@ -298,8 +327,21 @@ if (form) {
       }
     }
 
+    if (!captchaAnswered()) {
+      if (current !== last) go(last, "forward");
+      captchaBox.scrollIntoView({ block: "nearest" });
+      return;
+    }
+
     error.hidden = true;
     const body = new FormData(form); // read before the fields are disabled
+
+    // an empty phone field sends nothing; a filled one goes out with its country code
+    const phone = form.elements.phone.value.trim();
+    body.delete("country_code");
+    if (phone) body.set("phone", `${form.elements.country_code.value} ${phone}`);
+    else body.delete("phone");
+
     setSending(true);
 
     try {
@@ -317,6 +359,7 @@ if (form) {
       done.hidden = false;
       done.focus();
     } catch {
+      window.hcaptcha?.reset(); // each answer works once
       setSending(false);
       error.hidden = false;
       error.scrollIntoView({ block: "nearest" });

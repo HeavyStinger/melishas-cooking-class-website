@@ -7,7 +7,7 @@
   --primary-deep-muted: rgb(10 32 36 / 0.8);
   --radius: 0.75rem;
   --section-space: clamp(4rem, 8vw, 7rem);
-  --header-height: 4.5rem; /* the header once it has shrunk on scroll */
+  --header-height: 4.75rem; /* the header once it has shrunk on scroll */
   --line: rgb(23 73 80 / 0.35);
   --line-strong: rgb(23 73 80 / 0.4);
   --error: rgb(176 35 24);
@@ -65,6 +65,33 @@ main {
 
 [hidden] {
   display: none !important;
+}
+
+/* first stop for keyboard users: hidden until it has focus */
+.skip-link {
+  position: absolute;
+  z-index: 20;
+  top: var(--space-2);
+  left: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  background: var(--text);
+  color: var(--primary);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+  outline-color: var(--primary);
+}
+
+/* no double-tap delay on touch screens */
+a,
+button,
+label,
+summary {
+  touch-action: manipulation;
 }
 
 .visually-hidden {
@@ -246,7 +273,7 @@ main {
 }
 
 .site-header.is-scrolled .menu-toggle {
-  height: 2.5rem;
+  height: 2.75rem;
   color: var(--primary);
 }
 
@@ -643,9 +670,9 @@ h3 {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  font-size: var(--fs-0-half);
+  font-size: var(--fs-0-quarter);
   font-weight: 600;
-  color: rgb(10 32 36 / 0.65);
+  color: var(--primary-deep-muted);
 }
 
 /* icon fonts have one weight, so a thin outline makes the icons look bolder */
@@ -1137,6 +1164,11 @@ h3 {
 
 .summary__stub::after {
   right: -0.75rem;
+}
+
+/* room for the captcha box, so the form does not jump when it appears */
+.h-captcha {
+  min-height: 78px;
 }
 
 .booking__note {
