@@ -167,7 +167,7 @@ main {
 .logo img {
   display: block;
   width: auto;
-  height: var(--space-5);
+  height: 3.5rem;
 }
 
 .menu-toggle,
@@ -242,7 +242,7 @@ main {
 }
 
 .site-header.is-scrolled .logo img {
-  height: var(--space-4);
+  height: 2.5rem;
 }
 
 .site-header.is-scrolled .menu-toggle {
@@ -271,6 +271,13 @@ main {
   color: var(--text);
   font-size: var(--fs-1);
   text-decoration: none;
+}
+
+/* the section in view (or the page you are on) keeps an underline */
+.nav-links a[aria-current] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4em;
 }
 
 .menu .btn {
@@ -885,24 +892,14 @@ h3 {
   align-items: center;
 }
 
-/* stand-in until there is a real photo of Melisha */
+/* the photo is wide and Melisha sits right of centre, so the crop follows her */
 .about__photo {
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: var(--space-1);
+  width: 100%;
+  height: auto;
   aspect-ratio: 1;
-  border: 2px dashed var(--line-strong);
   border-radius: var(--radius);
-  background: rgb(23 73 80 / 0.12);
-  color: var(--primary);
-  font-weight: 600;
-  text-align: center;
-}
-
-.about__photo .bi {
-  font-size: var(--fs-2);
-  line-height: 1;
+  object-fit: cover;
+  object-position: 65% center;
 }
 
 .about__text {
