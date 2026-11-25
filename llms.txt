@@ -1,0 +1,31 @@
+# Melisha's Cooking Class
+
+> Hands-on Belizean cooking classes led by Melisha Coc in Caye Caulker, Belize. Guests cook a full dish with Melisha, sit down to eat it and take the recipe home. No cooking experience is needed.
+
+The site has two pages: a home page with the classes, FAQ and location, and a page for booking a class or sending a general inquiry. Bookings are requests: nothing is paid on the website, and the date is confirmed by email or WhatsApp first.
+
+## Pages
+
+- [Home](https://melishascookingclass.bz/): classes, prices, what happens in a class, private and group classes, about Melisha, FAQ and map
+- [Book a class or send an inquiry](https://melishascookingclass.bz/contact.html): a three-step booking request form and a general inquiry form
+
+## Classes
+
+- Stuffed Fry Jacks, 7:30 am, 2 hours 30 minutes, US$50 (BZ$100) per person. Includes local coffee, water and fresh fruit punch.
+- Rice and Beans with Stew Chicken, 11:00 am, 3 hours, US$75 (BZ$150) per person. Also covers fresh ceviche, coleslaw and fried plantains. Includes ceviche, water and fresh fruit punch.
+- Coconut Creole Shrimp, 5:00 pm, 3 hours, US$75 (BZ$150) per person. Served with coconut white rice and fried plantains.
+- Private class for two: US$250 (BZ$500).
+- Groups of 10 to 16: special group rate, ask for a quote.
+
+## Good to know
+
+- A class runs once at least 3 guests have booked and takes up to 16. One person can book a single space and will be told when the class is confirmed.
+- Full refund if cancelled at least 48 hours before the class.
+- Tell us about allergies when booking. Classes use shrimp, chicken, seafood, wheat and dairy.
+
+## Location and contact
+
+- Address: corner of Avenida Mangle and Luciano Reyes Street, Caye Caulker, Belize
+- Map: https://www.google.com/maps?cid=9305273752172079696
+- Email: info@melishascookingclass.bz
+- WhatsApp: https://wa.me/5016094868
